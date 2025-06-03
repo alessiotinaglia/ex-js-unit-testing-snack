@@ -1,93 +1,81 @@
+const {
+    getInitials,
+    createSlug,
+    average,
+    isPalindrome,
+    findPostById
+} = require("./esercizi");
 
 
-const { } = require("./esercizi");
+describe('Manipolazione di stringhe', () => {
 
-// 🏆 Snack 1
-// Creare un test che verifichi la seguente descrizione:
+    // 🏆 Snack 1
+    // 👉 "La funzione getInitials restituisce le iniziali di un nome completo."
 
-// 👉 "La funzione getInitials restituisce le iniziali di un nome completo."
+    test("La funzione getInitials restituisce le iniziali di un nome completo.", () => {
+        expect(getInitials("Mario Rossi")).toBe("MR");
+        expect(getInitials("Luca Bianchi")).toBe("LB");
+    });
 
-test("La funzione getInitials restituisce le iniziali di un nome completo."), () => {
+    // 🏆 Snack 5
+    // 👉 "La funzione isPalindrome verifica se una stringa è un palindromo."
 
-}
-// _________________________________________________________________________________________________________________________________________
-
-
-// 🏆 Snack 2
-// Creare un test che verifichi la seguente descrizione:
-
-// 👉 "La funzione createSlug restituisce una stringa in lowercase."
-
-test("La funzione createSlug restituisce una stringa in lowercase."), () => {
-
-}
-// _________________________________________________________________________________________________________________________________________
-
-// 🏆 Snack 3
-// Creare un test che verifichi la seguente descrizione:
-
-// 👉 "La funzione average calcola la media aritmetica di un array di numeri."
-
-test("La funzione average calcola la media aritmetica di un array di numeri."), () => {
-
-}
-// _________________________________________________________________________________________________________________________________________
-
-// 🏆 Snack 4
-// Creare un test che verifichi la seguente descrizione:
-
-// 👉 "La funzione createSlug sostituisce gli spazi con -."
-
-test("La funzione createSlug sostituisce gli spazi con -."), () => {
-
-}
-
-// 📌 Esempi:
-// createSlug("Questo è un test") → "questo-e-un-test"
-
-// _________________________________________________________________________________________________________________________________________
-
-// 🏆 Snack 5
-// Creare un test che verifichi la seguente descrizione:
-
-// 👉 "La funzione isPalindrome verifica se una stringa è un palindromo."
-
-test("La funzione isPalindrome verifica se una stringa è un palindromo."), () => {
-
-}
-
-// 📌 Nota: una stringa palindroma è una sequenza di caratteri che si legge uguale sia da sinistra a destra che da destra a sinistra.
-
-// _________________________________________________________________________________________________________________________________________
+    test("La funzione isPalindrome verifica se una stringa è un palindromo.", () => {
+        expect(isPalindrome("anna")).toBeTruthy();
+        expect(isPalindrome("casa")).toBeFalsy();        
+    });
+});
 
 
-// 🏆 Snack 6
-// Creare un test che verifichi la seguente descrizione:
+describe('Operazioni su array', () => {
 
-// 👉 "La funzione createSlug lancia un errore se il titolo è vuoto o non valido."
+    // 🏆 Snack 3
+    // 👉 "La funzione average calcola la media aritmetica di un array di numeri."
 
-test("La funzione createSlug lancia un errore se il titolo è vuoto o non valido."), () => {
+    test("La funzione average calcola la media aritmetica di un array di numeri.", () => {
+        expect(average([2, 4, 6])).toBe(4);
+        expect(average([10, 20, 30, 40])).toBe(25);
+    });
 
-}
-// _________________________________________________________________________________________________________________________________________
+    // 🏆 Snack 7
+    // 👉 "La funzione findPostById restituisce il post corretto dato l’array di post e l’id"
+
+    const posts = [
+        { id: 1, title: "Titolo 1", slug: "titolo-1" },
+        { id: 2, title: "Guida JavaScript", slug: "guida-javascript" }
+    ];
+
+    test("La funzione findPostById restituisce il post corretto dato l’array di post e l’id", () => {
+        expect(findPostById(posts, 1)).toEqual({ id: 1, title: "Titolo 1", slug: "titolo-1" });
+        expect(findPostById(posts, 3)).toBe(null);
+        expect(() => findPostById(posts, "Hello")).toThrow("non e un id");
+        expect(() => findPostById([55, 79], 2)).toThrow();
+    });
+});
 
 
-// 🏆 Snack 7
-// Crea un array di oggetti posts, in cui ogni oggetto ha le proprietà id, title e slug.
+describe("Generazione di Slug", () => {
 
-// Creare un test che verifichi le seguenti descrizioni:
+    // 🏆 Snack 2
+    // 👉 "La funzione createSlug restituisce una stringa in lowercase."
 
-// 👉 "La funzione findPostById restituisce il post corretto dato l’array di post e l’id"
+    test("La funzione createSlug restituisce una stringa in lowercase.", () => {
+        expect(createSlug("Questo È Un Test")).toBe("questo-è-un-test");
+    });
 
-test("La funzione findPostById restituisce il post corretto dato l’array di post e l’id"), () => {
+    // 🏆 Snack 4
+    // 👉 "La funzione createSlug sostituisce gli spazi con -."
 
-}
+    test("La funzione createSlug sostituisce gli spazi con -.", () => {
+        expect(createSlug("Titolo MOLTO lungo")).toBe("titolo-molto-lungo");
+    });
 
+    // 🏆 Snack 6
+    // 👉 "La funzione createSlug lancia un errore se il titolo è vuoto o non valido."
 
-// Creare uno o più test aggiuntivi che controllino che la struttura dati passati sia conforme (ogni post ha le proprietà id, title e slug, viene passato un id numerico).
-
-
-// 🏆 Challenge: describe() - organizzazione dei test
-// Organizza i test in describe() raggruppandoli per argomento.
-
-// _________________________________________________________________________________________________________________________________________
+    test("La funzione createSlug lancia un errore se il titolo è vuoto o non valido.", () => {
+        expect(() => createSlug("")).toThrow();
+        expect(() => createSlug(null)).toThrow();
+        expect(() => createSlug("     ")).toThrow();
+    });
+});
